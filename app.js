@@ -5,10 +5,13 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     LocalStrategy = require('passport-local'),
     passportLocalMongoose = require('passport-local-mongoose'),
-    User = require('./models/user');
-    
-mongoose.connect('mongodb://localhost/budget_app');
+    User = require('./models/user'),
+    flash = require('connect-flash');
 
+//MongoDB Connection    
+mongoose.connect(process.env.DATABASEURL);
+
+//Express Session Setup
 app.use(require('express-session')({
     secret: "Batman is the best superhero.",
     resave: false,
@@ -16,11 +19,13 @@ app.use(require('express-session')({
 }));
 
 app.set('view engine', 'ejs');
+app.use(flash());
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(passport.initialize());
 app.use(passport.session());
 
+//Passport Setup
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
