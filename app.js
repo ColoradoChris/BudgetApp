@@ -7,6 +7,8 @@ var express = require('express'),
     passportLocalMongoose = require('passport-local-mongoose'),
     User = require('./models/user'),
     flash = require('connect-flash');
+    
+var indexRoutes = require('./routes/index');
 
 //MongoDB Connection    
 mongoose.connect(process.env.DATABASEURL);
@@ -30,31 +32,16 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+//Pass to all Templates - User and Flash Messages
+app.use(function(req, res, next){
+   res.locals.currentUser = req.user;
+   res.locals.error = req.flash('error');
+   res.locals.success = req.flash('success');
+   next();
+});
+
 //Routes
-app.get('/', function(req, res){
-    res.render('index'); 
-});
-
-app.get('/dashboard', function(req, res) {
-    res.render('dashboard');
-});
-
-app.get('/signup', function(req, res){
-    res.render('signup');
-});
-
-app.post('/signup', function(req, res){
-    User.register(new User({email: req.body.email, username: req.body.username}), req.body.password, function(err, user){
-        if(err){
-            console.log(err);
-            return res.redirect('/signup');
-        } else {
-            passport.authenticate('local')(req, res, function(){
-                res.redirect('/dashboard'); 
-            });
-        }
-    }); 
-});
+app.use('/', indexRoutes);
 
 app.listen(process.env.PORT, process.env.IP, function(){
    console.log("Server has started."); 
