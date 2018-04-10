@@ -1,7 +1,9 @@
 var express = require('express'),
     router = express.Router(),
     User = require('../models/user'),
-    passport = require('passport');
+    passport = require('passport'),
+    date = require('date-and-time'),
+    middleware = require('../middleware');
 
 //Root Route
 router.get('/', function(req, res){
@@ -9,8 +11,16 @@ router.get('/', function(req, res){
 });
 
 //Dashboard
-router.get('/dashboard', function(req, res) {
-    res.render('dashboard');
+router.get('/dashboard', middleware.isLoggedIn, function(req, res) {
+    User.findById(req.user._id).populate('incomes').exec(function(err, user){
+        if(err){
+            console.log(err);
+            req.flash("err", "Somethign went wrong");
+            res.redirect('back');
+        } else {
+            res.render('dashboard', {user: user, date: date});
+        }
+    });
 });
 
 //Register Get Route

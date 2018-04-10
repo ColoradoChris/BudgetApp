@@ -1,6 +1,7 @@
 var express = require('express'),
     router = express.Router(),
     Income = require('../models/income'),
+    User = require('../models/user'),
     middleware = require('../middleware');
 
 router.get('/new', middleware.isLoggedIn, function(req, res){
@@ -21,14 +22,22 @@ router.post('/', middleware.isLoggedIn, function(req, res){
        date: date,
        creator: creator
    };
-   Income.create(newIncome, function(err, newlyCreated){
-      if(err){
-          req.flash("error", "Something went wrong...");
-          res.redirect("back");
-      } else {
-          req.flash("success", "Income successfully added!");
-          res.redirect("/dashboard");
-      }
+   User.findById(req.user._id, function(err, user){
+       if(err){
+           console.log(err);
+       } else {
+            Income.create(newIncome, function(err, newlyCreated){
+                if(err){
+                    req.flash("error", "Something went wrong...");
+                    res.redirect("back");
+                } else {
+                    user.incomes.push(newlyCreated);
+                    user.save();
+                    req.flash("success", "Income successfully added!");
+                    res.redirect("/dashboard");
+                }
+            });
+       }
    });
 });
 

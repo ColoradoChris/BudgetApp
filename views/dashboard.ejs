@@ -9,8 +9,14 @@
                 <a class="btn btn-primary" href="/income/new">Add an Income!</a>
                 <a class="btn btn-primary" href="/expense/new">Add an Expense!</a>
             </div>
+            <div class="col-md-12">
+                <ul>
+                    <% user.incomes.forEach(function(income){ %>
+                        <li><%= date.format(income.date, 'MMM DD YYYY') %>: <%= income.type %> - <%= income.amount %></li>
+                    <% }); %>
+                </ul>
+            </div>
         </div>
-        
     </div>
 
 <% include partials/footer %>
