@@ -1,4 +1,6 @@
 <% include partials/header %>
+<% var yearOptions = ["All", 2018, 2017, 2016, 2015, 2014]; %>
+<% var monthOptions = ["All", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]; %>
 
     <div class="container">
         <div class="row">
@@ -8,6 +10,24 @@
             <div class="col-md-12">
                 <a class="btn btn-primary" href="/income/new">Add an Income!</a>
                 <a class="btn btn-primary" href="/expense/new">Add an Expense!</a>
+            </div>
+            <div class="col-md-12">
+                <div class="container">
+                    <form class="form-inline">
+                        <label for="Year">Year:</label>
+                        <select class="form-control" name="year">
+                            <% for (var i = 0; i < yearOptions.length; i++) { %>
+                                <option value="<%= yearOptions[i] %>"><%= yearOptions[i] %></option>
+                            <% } %>
+                        </select>
+                        <label for="Month">Month:</label>
+                        <select class="form-control" name="month">
+                            <% for (var i = 0; i < monthOptions.length; i++) { %>
+                                <option value="<%= monthOptions[i] %>"><%= monthOptions[i] %></option>
+                            <% } %>
+                        </select>
+                    </form>
+                </div>
             </div>
             <div class="col-md-6">
                 <h3>Incomes</h3>
