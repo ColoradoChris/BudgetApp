@@ -31,6 +31,12 @@
                     <li>Total Expenses: $<%= expenseCount %></li>
                 </ul>
             </div>
+            <div class="col-md-6">
+                <% if(incomeCount > 0 && expenseCount > 0 ){ %>
+                    <p>Total Saved: $<%= incomeCount - expenseCount %></p>
+                    <p>Savings Rate: <%= (((incomeCount - expenseCount)/incomeCount) * 100).toFixed(2) %>%</p>
+                <% } %>
+            </div>
         </div>
     </div>
 
