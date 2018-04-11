@@ -9,7 +9,8 @@ var express = require('express'),
     flash = require('connect-flash');
     
 var indexRoutes = require('./routes/index'),
-    incomeRoutes = require('./routes/income');
+    incomeRoutes = require('./routes/income'),
+    expenseRoutes = require('./routes/expense');
 
 //MongoDB Connection    
 mongoose.connect(process.env.DATABASEURL);
@@ -44,6 +45,7 @@ app.use(function(req, res, next){
 //Routes
 app.use('/', indexRoutes);
 app.use('/income', incomeRoutes);
+app.use('/expense', expenseRoutes);
 
 app.listen(process.env.PORT, process.env.IP, function(){
    console.log("Server has started."); 

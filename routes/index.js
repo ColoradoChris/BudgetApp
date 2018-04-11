@@ -12,7 +12,7 @@ router.get('/', function(req, res){
 
 //Dashboard
 router.get('/dashboard', middleware.isLoggedIn, function(req, res) {
-    User.findById(req.user._id).populate('incomes').exec(function(err, user){
+    User.findById(req.user._id).populate('incomes').populate('expenses').exec(function(err, user){
         if(err){
             console.log(err);
             req.flash("err", "Somethign went wrong");
