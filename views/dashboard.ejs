@@ -12,17 +12,23 @@
             <div class="col-md-6">
                 <h3>Incomes</h3>
                 <ul>
+                    <% var incomeCount = 0 %>
                     <% user.incomes.forEach(function(income){ %>
+                        <% incomeCount += income.amount %>
                         <li><%= date.format(income.date, 'MMM DD YYYY') %>: <%= income.type %> - $<%= income.amount %></li>
                     <% }); %>
+                    <li>Total Income: $<%= incomeCount %></li>
                 </ul>
             </div>
             <div class="col-md-6">
                 <h3>Expenses</h3>
                 <ul>
+                    <% var expenseCount = 0 %>
                     <% user.expenses.forEach(function(expense){ %>
+                        <% expenseCount += expense.amount %>
                         <li><%= date.format(expense.date, 'MMM DD YYYY') %>: <%= expense.type %> - $<%= expense.amount %></li>
                     <% }); %>
+                    <li>Total Expenses: $<%= expenseCount %></li>
                 </ul>
             </div>
         </div>
