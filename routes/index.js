@@ -12,15 +12,38 @@ router.get('/', function(req, res){
 
 //Dashboard
 router.get('/dashboard', middleware.isLoggedIn, function(req, res) {
-    User.findById(req.user._id).populate('incomes').populate('expenses').exec(function(err, user){
-        if(err){
-            console.log(err);
-            req.flash("err", "Somethign went wrong");
-            res.redirect('back');
-        } else {
-            res.render('dashboard', {user: user, date: date});
-        }
-    });
+     if(req.query.year != "All" && req.query.month === "All"){
+        User.findById(req.user._id).populate({path: 'incomes', match: {date: {$gte: new Date(req.query.year  + "-01-01T00:00:00Z"), $lte: new Date(req.query.year  + "-12-31T00:00:00Z")} }}).populate({path: 'expenses', match: {date: {$gte: new Date(req.query.year  + "-01-01T00:00:00Z"), $lte: new Date(req.query.year  + "-12-31T00:00:00Z")} }}).exec(function(err, user){
+            if(err){
+                console.log(err);
+                req.flash("err", "Somethign went wrong");
+                res.redirect('back');
+            } else {
+                res.render('dashboard', {user: user, date: date});
+            }
+        });
+    // } else if(req.query.month != "All" && req.query != {} && req.query.year != "All"){
+    //     var month = date.format(req.query.month, "MM");
+    //     User.findById(req.user._id).populate({path: 'incomes', match: {date: {$gte: new Date(req.query.year + "-" + month  + "-01T00:00:00Z"), $lte: new Date(req.query.year + "-" + month + "-31T00:00:00Z")} }}).populate({path: 'expenses', match: {date: {$gte: new Date(req.query.year + "-" + month + "-01T00:00:00Z"), $lte: new Date(req.query.year + "-" + month + "-31T00:00:00Z")} }}).exec(function(err, user){
+    //         if(err){
+    //             console.log(err);
+    //             req.flash("err", "Somethign went wrong");
+    //             res.redirect('back');
+    //         } else {
+    //             res.render('dashboard', {user: user, date: date});
+    //         }
+    //     });
+    } else {
+        User.findById(req.user._id).populate('incomes').populate('expenses').exec(function(err, user){
+            if(err){
+                console.log(err);
+                req.flash("err", "Somethign went wrong");
+                res.redirect('back');
+            } else {
+                res.render('dashboard', {user: user, date: date});
+            }
+        });
+    }
 });
 
 //Register Get Route
