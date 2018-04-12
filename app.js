@@ -6,7 +6,8 @@ var express = require('express'),
     LocalStrategy = require('passport-local'),
     passportLocalMongoose = require('passport-local-mongoose'),
     User = require('./models/user'),
-    flash = require('connect-flash');
+    flash = require('connect-flash'),
+    methodOverride = require('method-override');
     
 var indexRoutes = require('./routes/index'),
     incomeRoutes = require('./routes/income'),
@@ -26,6 +27,7 @@ app.set('view engine', 'ejs');
 app.use(flash());
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(methodOverride('_method'));
 app.use(passport.initialize());
 app.use(passport.session());
 

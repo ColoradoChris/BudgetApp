@@ -35,7 +35,7 @@
                     <% var incomeCount = 0 %>
                     <% user.incomes.forEach(function(income){ %>
                         <% incomeCount += income.amount %>
-                        <li><%= date.format(income.date, 'MMM DD YYYY') %>: <%= income.type %> - $<%= income.amount %></li>
+                        <li><a href='/income/<%= income._id %>/edit'><%= date.format(income.date, 'MMM DD YYYY') %>: <%= income.type %> - $<%= income.amount %></a></li>
                     <% }); %>
                     <li>Total Income: $<%= incomeCount %></li>
                 </ul>
