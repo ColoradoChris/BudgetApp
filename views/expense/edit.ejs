@@ -1,0 +1,45 @@
+<% include ../partials/header %>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Edit an Expense</h1>
+            <form action="/expense/<%= expense._id %>?_method=PUT" method="POST">
+                <div class="form-group">
+                    <label for="type">Type:</label>
+                    <select class="form-control" name="type">
+                        <option value="Gas">Gas</option>
+                        <option value="Groceries">Groceries</option>
+                        <option value="Rent/Mortgage">Rent/Mortgage</option>
+                        <option value="Restaurants">Restaurants</option>
+                        <option value="Haircut/Grooming">Haircut/Grooming</option>
+                        <option value="Entertainment">Entertainment</option>
+                        <option value="Clothing">Clothing</option>
+                        <option value="Gifts">Gifts</option>
+                        <option value="Learning/Development">Learning/Development</option>
+                        <option value="Music">Music</option>
+                        <option value="Car Payments">Car Payments</option>
+                        <option value="Cell Phone">Cell Phone</option>
+                        <option value="Toiletries">Toiletries</option>
+                        <option value="Travel">Travel</option>
+                        <option value="Health/Doctor">Health/Doctor</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="amount">Amount:</label>
+                    <input class="form-control" type="number" name="amount" min="0.01" step="0.01" value="<%= expense.amount %>">
+                </div>
+                <div class="form-group">
+                    <label for="date">Date:</label>
+                    <input class="form-control" type="date" name="date" value="<%= date.format(expense.date, "YYYY-MM-DD") %>">
+                </div>
+                <div class="form-group">
+                    <button class="form-control btn btn-success">Submit!</button>
+                </div>
+            </form>
+            <a href="/dashboard" class="btn btn-primary">Back to Dashboard</a>
+        </div>
+    </div>
+</div>
+
+<% include ../partials/footer %>

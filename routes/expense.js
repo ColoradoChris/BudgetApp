@@ -2,12 +2,15 @@ var express = require('express'),
     router = express.Router(),
     Expense = require('../models/expense'),
     User = require('../models/user'),
-    middleware = require('../middleware');
+    middleware = require('../middleware'),
+    date = require('date-and-time');
 
+//Get Route
 router.get('/new', middleware.isLoggedIn, function(req, res){
    res.render('expense/new'); 
 });
 
+//Create Route
 router.post('/', middleware.isLoggedIn, function(req, res){
     var type = req.body.type;
     var amount = req.body.amount;
@@ -38,6 +41,45 @@ router.post('/', middleware.isLoggedIn, function(req, res){
                 }
             });
        }
+   });
+});
+
+//Edit Expense Route
+router.get('/:id/edit', middleware.isLoggedIn, function(req, res) {
+    Expense.findById(req.params.id, function(err, foundExpense){
+        if(err){
+         req.flash('error', 'Could not find the requested expense.');
+         res.redirect('back');
+        } else {
+         res.render('expense/edit', {expense: foundExpense, date: date}); 
+        }
+    });
+});
+
+//Update Expense Route
+router.put('/:id', middleware.isLoggedIn, function(req, res){
+    var type = req.body.type;
+    var amount = req.body.amount;
+    var date = req.body.date;
+    var creator = {
+      id: req.user._id,
+      username: req.user.username
+    };
+    var expense = {
+       type: type,
+       amount: amount,
+       date: date,
+       creator: creator
+    };
+   Expense.findByIdAndUpdate(req.params.id, expense, function(err, updatedIncome){
+      if(err){
+         console.log(err);
+         req.flash('error', 'Could not update the selected expense.');
+         res.redirect('/dashboard');
+      } else {
+         req.flash('success', 'Expense updated!');
+         res.redirect('/dashboard');
+      }
    });
 });
 

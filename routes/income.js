@@ -2,7 +2,8 @@ var express = require('express'),
     router = express.Router(),
     Income = require('../models/income'),
     User = require('../models/user'),
-    middleware = require('../middleware');
+    middleware = require('../middleware'),
+    date = require('date-and-time');
 
 router.get('/new', middleware.isLoggedIn, function(req, res){
    res.render('income/new'); 
@@ -48,7 +49,7 @@ router.get('/:id/edit', middleware.isLoggedIn, function(req, res) {
          req.flash('error', 'Could not find the requested income.');
          res.redirect('back');
         } else {
-         res.render('income/edit', {income: foundIncome}); 
+         res.render('income/edit', {income: foundIncome, date: date}); 
         }
     });
 });

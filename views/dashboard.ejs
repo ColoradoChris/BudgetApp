@@ -46,7 +46,7 @@
                     <% var expenseCount = 0 %>
                     <% user.expenses.forEach(function(expense){ %>
                         <% expenseCount += expense.amount %>
-                        <li><%= date.format(expense.date, 'MMM DD YYYY') %>: <%= expense.type %> - $<%= expense.amount %></li>
+                        <li><a href='/expense/<%= expense._id %>/edit'><%= date.format(expense.date, 'MMM DD YYYY') %>: <%= expense.type %> - $<%= expense.amount %></a></li>
                     <% }); %>
                     <li>Total Expenses: $<%= expenseCount %></li>
                 </ul>
