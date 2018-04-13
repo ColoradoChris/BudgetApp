@@ -83,4 +83,18 @@ router.put('/:id', middleware.isLoggedIn, function(req, res){
    });
 });
 
+//Destroy expense Route
+router.delete('/:id', function(req, res){
+   Expense.findByIdAndRemove(req.params.id, function(err){
+      if(err){
+         console.log(err);
+         req.flash('error', 'Could not delete the selected expense.');
+         res.redirect('/dashboard');
+      } else {
+         req.flash('success', 'Successfully deleted the expense!');
+         res.redirect('/dashboard');
+      }
+   });
+});
+
 module.exports = router;

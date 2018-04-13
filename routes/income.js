@@ -81,4 +81,18 @@ router.put('/:id', middleware.isLoggedIn, function(req, res){
    });
 });
 
+//Destroy Income Route
+router.delete('/:id', function(req, res){
+   Income.findByIdAndRemove(req.params.id, function(err){
+      if(err){
+         console.log(err);
+         req.flash('error', 'Could not delete the selected income.');
+         res.redirect('/dashboard');
+      } else {
+         req.flash('success', 'Successfully deleted the income!');
+         res.redirect('/dashboard');
+      }
+   });
+});
+
 module.exports = router;
