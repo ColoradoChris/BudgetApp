@@ -36,7 +36,7 @@
                     <% var incomeCount = 0 %>
                     <% user.incomes.forEach(function(income){ %>
                         <% incomeCount += income.amount %>
-                        <li><a href='/income/<%= income._id %>/edit'><%= date.format(income.date, 'MMM DD YYYY') %>: <%= income.type %> - $<%= income.amount %></a></li>
+                        <li><a href='/income/<%= income._id %>/edit'><%= date.format(income.date, 'MMM DD YYYY') %>: <%= income.type %> - $<%= income.amount %></a><form class="form-inline" action="/income/<%= income._id %>?_method=DELETE" method="POST"><button class='btn btn-xs'><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button></form></li>
                     <% }); %>
                     <li>Total Income: $<%= (incomeCount).toFixed(2) %></li>
                 </ul>
@@ -47,7 +47,7 @@
                     <% var expenseCount = 0 %>
                     <% user.expenses.forEach(function(expense){ %>
                         <% expenseCount += expense.amount %>
-                        <li><a href='/expense/<%= expense._id %>/edit'><%= date.format(expense.date, 'MMM DD YYYY') %>: <%= expense.type %> - $<%= expense.amount %></a></li>
+                        <li><a href='/expense/<%= expense._id %>/edit'><%= date.format(expense.date, 'MMM DD YYYY') %>: <%= expense.type %> - $<%= expense.amount %></a><form class="form-inline" action="/expense/<%= expense._id %>?_method=DELETE" method="POST"><button class='btn btn-xs'><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button></form></li>
                     <% }); %>
                     <li>Total Expenses: $<%= (expenseCount).toFixed(2) %></li>
                 </ul>

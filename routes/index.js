@@ -35,7 +35,6 @@ router.get('/dashboard', middleware.isLoggedIn, function(req, res) {
             }
         });
     } else {
-        console.log(req.query);
         User.findById(req.user._id).populate('incomes').populate('expenses').exec(function(err, user){
             if(err){
                 console.log(err);
