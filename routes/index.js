@@ -3,7 +3,8 @@ var express = require('express'),
     User = require('../models/user'),
     passport = require('passport'),
     date = require('date-and-time'),
-    middleware = require('../middleware');
+    middleware = require('../middleware'),
+    d3 = require('d3-node');
 
 var months = {"All": "01", "January": "01", "February": "02", "March": "03", "April": "04", "May": "05", "June": "06", "July": "07", "August": "08", "September": "09", "October": "10", "November": "11", "December": "12"};
 
@@ -18,30 +19,30 @@ router.get('/dashboard', middleware.isLoggedIn, function(req, res) {
         User.findById(req.user._id).populate({path: 'incomes', match: {date: {$gte: new Date(req.query.year  + "-01-01T00:00:00Z"), $lte: new Date(req.query.year  + "-12-31T00:00:00Z")} }}).populate({path: 'expenses', match: {date: {$gte: new Date(req.query.year  + "-01-01T00:00:00Z"), $lte: new Date(req.query.year  + "-12-31T00:00:00Z")} }}).exec(function(err, user){
             if(err){
                 console.log(err);
-                req.flash("err", "Somethign went wrong");
+                req.flash("err", "Something went wrong");
                 res.redirect('back');
             } else {
-                res.render('dashboard', {user: user, date: date});
+                res.render('dashboard', {user: user, date: date, d3: d3});
             }
         });
     } else if((req.query.year != undefined) && (req.query.month != undefined)){
         User.findById(req.user._id).populate({path: 'incomes', match: {date: {$gte: new Date(req.query.year + "-" + months[req.query.month]  + "-01T00:00:00Z"), $lte: new Date(req.query.year + "-" + months[req.query.month] + "-31T00:00:00Z")} }}).populate({path: 'expenses', match: {date: {$gte: new Date(req.query.year + "-" + months[req.query.month] + "-01T00:00:00Z"), $lte: new Date(req.query.year + "-" + months[req.query.month] + "-31T00:00:00Z")} }}).exec(function(err, user){
             if(err){
                 console.log(err);
-                req.flash("err", "Somethign went wrong");
+                req.flash("err", "Something went wrong");
                 res.redirect('back');
             } else {
-                res.render('dashboard', {user: user, date: date});
+                res.render('dashboard', {user: user, date: date, d3: d3});
             }
         });
     } else {
         User.findById(req.user._id).populate('incomes').populate('expenses').exec(function(err, user){
             if(err){
                 console.log(err);
-                req.flash("err", "Somethign went wrong");
+                req.flash("err", "Something went wrong");
                 res.redirect('back');
             } else {
-                res.render('dashboard', {user: user, date: date});
+                res.render('dashboard', {user: user, date: date, d3: d3});
             }
         });
     }

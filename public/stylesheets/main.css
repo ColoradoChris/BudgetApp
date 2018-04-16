@@ -1,15 +1,41 @@
+#query {
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+
+#incomes {
+    margin-top: 10px;
+    margin-right: 5px;
+    width: 46%;
+    border: 0.5px solid black;
+    border-radius: 5px;
+    background-color: rgba(21, 40, 31, 0.1);
+}
+
+#expenses {
+    margin-top: 10px;
+    width: 46%;
+    border: 0.5px solid black;
+    border-radius: 5px;
+    background-color: rgba(21, 40, 31, 0.1);
+}
+
+#message {
+    margin-bottom: 15px;
+}
+
 .form-group {
     width: 35%;
     margin: 5px auto;
 }
 
-#query {
-    margin-top: 15px;
-}
-
 .inline {
     display: inline;
     margin-left: 5px;
+}
+
+li a:hover {
+    text-decoration: none;
 }
 
 li {
