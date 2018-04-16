@@ -8,11 +8,13 @@
                 <h1>This is the dashboard!</h1>
             </div>
             <div class="col-md-12">
-                <a class="btn btn-primary" href="/income/new">Add an Income!</a>
-                <a class="btn btn-primary" href="/expense/new">Add an Expense!</a>
+                <div class="container">
+                    <a class="btn btn-primary" href="/income/new">Add an Income!</a>
+                    <a class="btn btn-primary" href="/expense/new">Add an Expense!</a>
+                </div>
             </div>
             <div class="col-md-12">
-                <div class="container">
+                <div class="container" id='query'>
                     <form class="form-inline" action="/dashboard" method="get">
                         <label for="Year">Year:</label>
                         <select class="form-control" name="year">
@@ -30,33 +32,37 @@
                     </form>
                 </div>
             </div>
-            <div class="col-md-6">
-                <h3>Incomes</h3>
-                <ul>
-                    <% var incomeCount = 0 %>
-                    <% user.incomes.forEach(function(income){ %>
-                        <% incomeCount += income.amount %>
-                        <li><a href='/income/<%= income._id %>/edit'><%= date.format(income.date, 'MMM DD YYYY') %>: <%= income.type %> - $<%= income.amount %></a><form class="form-inline" action="/income/<%= income._id %>?_method=DELETE" method="POST"><button class='btn btn-xs'><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button></form></li>
-                    <% }); %>
-                    <li>Total Income: $<%= (incomeCount).toFixed(2) %></li>
-                </ul>
+            <div class="container">
+                <div class="col-md-6">
+                    <h3>Incomes</h3>
+                    <ul>
+                        <% var incomeCount = 0 %>
+                        <% user.incomes.forEach(function(income){ %>
+                            <% incomeCount += income.amount %>
+                            <li><a href='/income/<%= income._id %>/edit'><%= date.format(income.date, 'MMM DD YYYY') %>: <%= income.type %> - $<%= income.amount %></a><form class="inline" action="/income/<%= income._id %>?_method=DELETE" method="POST"><button class='btn btn-xs'><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button></form></li>
+                        <% }); %>
+                        <li>Total Income: $<%= (incomeCount).toFixed(2) %></li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h3>Expenses</h3>
+                    <ul>
+                        <% var expenseCount = 0 %>
+                        <% user.expenses.forEach(function(expense){ %>
+                            <% expenseCount += expense.amount %>
+                            <li><a href='/expense/<%= expense._id %>/edit'><%= date.format(expense.date, 'MMM DD YYYY') %>: <%= expense.type %> - $<%= expense.amount %></a><form class="inline" action="/expense/<%= expense._id %>?_method=DELETE" method="POST"><button class='btn btn-xs'><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button></form></li>
+                        <% }); %>
+                        <li>Total Expenses: $<%= (expenseCount).toFixed(2) %></li>
+                    </ul>
+                </div>
             </div>
-            <div class="col-md-6">
-                <h3>Expenses</h3>
-                <ul>
-                    <% var expenseCount = 0 %>
-                    <% user.expenses.forEach(function(expense){ %>
-                        <% expenseCount += expense.amount %>
-                        <li><a href='/expense/<%= expense._id %>/edit'><%= date.format(expense.date, 'MMM DD YYYY') %>: <%= expense.type %> - $<%= expense.amount %></a><form class="form-inline" action="/expense/<%= expense._id %>?_method=DELETE" method="POST"><button class='btn btn-xs'><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button></form></li>
-                    <% }); %>
-                    <li>Total Expenses: $<%= (expenseCount).toFixed(2) %></li>
-                </ul>
-            </div>
-            <div class="col-md-6">
-                <% if(incomeCount > 0 && expenseCount > 0 ){ %>
-                    <p>Total Saved: $<%= (incomeCount - expenseCount).toFixed(2) %></p>
-                    <p>Savings Rate: <%= (((incomeCount - expenseCount)/incomeCount) * 100).toFixed(2) %>%</p>
-                <% } %>
+            <div class="container">
+                <div class="col-md-6">
+                    <% if(incomeCount > 0 && expenseCount > 0 ){ %>
+                        <p>Total Saved: $<%= (incomeCount - expenseCount).toFixed(2) %></p>
+                        <p>Savings Rate: <%= (((incomeCount - expenseCount)/incomeCount) * 100).toFixed(2) %>%</p>
+                    <% } %>
+                </div>
             </div>
         </div>
     </div>
