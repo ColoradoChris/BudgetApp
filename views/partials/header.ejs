@@ -8,8 +8,8 @@
         <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     </head>
     <body>
-        <nav class="navbar navbar-inverse">
-            <div class="container=fluid">
+        <nav class="navbar navbar-inverse navbar-static-top">
+            <div class="container-fluid">
                 <div class="navbar-header">
                     <a class="navbar-brand" href="/">Budgeter</a>
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
@@ -22,10 +22,10 @@
                 <div class="collapse navbar-collapse" id="navbar-collapse-1">
                     <ul class="nav navbar-nav navbar-right">
                         <% if(!currentUser){ %>
-                            <li><a href='/login'>Login</a></li>
+                            <li><a href='/login' class="navlink">Login</a></li>
                             <li><a href='/signup'>Sign Up</a></li>
                         <% } else { %>
-                            <li><a href='#'>Signed In As <%= currentUser.username %></a></li>
+                            <li><a href='#' class="navlink">Signed In As <%= currentUser.username %></a></li>
                             <li><a href='/logout'>Logout</a></li>
                         <% } %>
                     </ul>

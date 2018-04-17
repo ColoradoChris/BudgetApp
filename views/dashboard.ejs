@@ -33,26 +33,35 @@
                 </div>
             </div>
             <div class="container">
+                <div class="col-md-12">
+                    <% if(query.year && (query.year != "All" && query.year !="All")){ %>
+                        <h2><%= query.month %> <%= query.year %> Income and Expenses</h2>
+                    <% } %>
+                </div>
+            </div>
+            <div class="container">
                 <div class="col-md-6" id="incomes">
                     <h3>Incomes</h3>
+                    <hr>
                     <ul>
                         <% var incomeCount = 0 %>
                         <% user.incomes.forEach(function(income){ %>
                             <% incomeCount += income.amount %>
-                            <li><a href='/income/<%= income._id %>/edit'><%= date.format(income.date, 'MMM DD YYYY') %>: <%= income.type %> - $<%= income.amount %></a><form class="inline" action="/income/<%= income._id %>?_method=DELETE" method="POST"><button class='btn btn-xs'><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button></form></li>
+                            <li class="listitems"><a href='/income/<%= income._id %>/edit'><%= date.format(income.date, 'MMM DD YYYY') %>: <%= income.type %> - $<%= income.amount %></a><form class="inline" action="/income/<%= income._id %>?_method=DELETE" method="POST"><button class='btn btn-xs'><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button></form></li>
                         <% }); %>
-                        <li>Total Income: $<%= (incomeCount).toFixed(2) %></li>
+                        <li class="listitems">Total Income: $<%= (incomeCount).toFixed(2) %></li>
                     </ul>
                 </div>
                 <div class="col-md-6" id="expenses">
                     <h3>Expenses</h3>
+                    <hr>
                     <ul>
                         <% var expenseCount = 0 %>
                         <% user.expenses.forEach(function(expense){ %>
                             <% expenseCount += expense.amount %>
-                            <li><a href='/expense/<%= expense._id %>/edit'><%= date.format(expense.date, 'MMM DD YYYY') %>: <%= expense.type %> - $<%= expense.amount %></a><form class="inline" action="/expense/<%= expense._id %>?_method=DELETE" method="POST"><button class='btn btn-xs'><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button></form></li>
+                            <li class="listitems"><a href='/expense/<%= expense._id %>/edit'><%= date.format(expense.date, 'MMM DD YYYY') %>: <%= expense.type %> - $<%= expense.amount %></a><form class="inline" action="/expense/<%= expense._id %>?_method=DELETE" method="POST"><button class='btn btn-xs'><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button></form></li>
                         <% }); %>
-                        <li>Total Expenses: $<%= (expenseCount).toFixed(2) %></li>
+                        <li class="listitems">Total Expenses: $<%= (expenseCount).toFixed(2) %></li>
                     </ul>
                 </div>
             </div>
