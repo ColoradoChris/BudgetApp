@@ -3,8 +3,7 @@ var express = require('express'),
     User = require('../models/user'),
     passport = require('passport'),
     date = require('date-and-time'),
-    middleware = require('../middleware'),
-    d3 = require('d3-node');
+    middleware = require('../middleware');
 
 var months = {"All": "01", "January": "01", "February": "02", "March": "03", "April": "04", "May": "05", "June": "06", "July": "07", "August": "08", "September": "09", "October": "10", "November": "11", "December": "12"};
 
@@ -22,7 +21,7 @@ router.get('/dashboard', middleware.isLoggedIn, function(req, res) {
                 req.flash("error", "Something went wrong");
                 res.redirect('back');
             } else {
-                res.render('dashboard', {user: user, date: date, d3: d3, query: req.query});
+                res.render('dashboard', {user: user, date: date, query: req.query});
             }
         });
     } else if((req.query.year && req.query.year === "All") && (req.query.month && req.query.month != "All")){ 
@@ -35,7 +34,7 @@ router.get('/dashboard', middleware.isLoggedIn, function(req, res) {
                 req.flash("error", "Something went wrong");
                 res.redirect('back');
             } else {
-                res.render('dashboard', {user: user, date: date, d3: d3, query: req.query});
+                res.render('dashboard', {user: user, date: date, query: req.query});
             }
         });
     } else {
@@ -45,7 +44,7 @@ router.get('/dashboard', middleware.isLoggedIn, function(req, res) {
                 req.flash("error", "Something went wrong");
                 res.redirect('back');
             } else {
-                res.render('dashboard', {user: user, date: date, d3: d3, query: req.query});
+                res.render('dashboard', {user: user, date: date, query: req.query});
             }
         });
     }
