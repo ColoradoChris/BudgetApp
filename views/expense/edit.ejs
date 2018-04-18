@@ -1,4 +1,5 @@
 <% include ../partials/header %>
+<% var options = ["Gas", "Groceries", "Rent/Mortgage", "Restaurants", "Haircut/Grooming", "Entertainment", "Clothing", "Gifts", "Learning/Development", "Music", "Car Payments", "Cell Phone", "Toiletries", "Travel", "Health/Doctor"]; %>
 
 <div class="container">
     <div class="row">
@@ -8,21 +9,13 @@
                 <div class="form-group">
                     <label for="type">Type:</label>
                     <select class="form-control" name="type">
-                        <option value="Gas">Gas</option>
-                        <option value="Groceries">Groceries</option>
-                        <option value="Rent/Mortgage">Rent/Mortgage</option>
-                        <option value="Restaurants">Restaurants</option>
-                        <option value="Haircut/Grooming">Haircut/Grooming</option>
-                        <option value="Entertainment">Entertainment</option>
-                        <option value="Clothing">Clothing</option>
-                        <option value="Gifts">Gifts</option>
-                        <option value="Learning/Development">Learning/Development</option>
-                        <option value="Music">Music</option>
-                        <option value="Car Payments">Car Payments</option>
-                        <option value="Cell Phone">Cell Phone</option>
-                        <option value="Toiletries">Toiletries</option>
-                        <option value="Travel">Travel</option>
-                        <option value="Health/Doctor">Health/Doctor</option>
+                        <% options.forEach(function(option){ %>
+                            <% if(expense.type === option){ %>
+                                <option value="<%= option %>" selected="selected"><%= option %></option>
+                            <% } else { %>
+                                <option value="<%= option %>"><%= option %></option>
+                                <% } %>
+                        <% }); %>
                     </select>
                 </div>
                 <div class="form-group">

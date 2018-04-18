@@ -26,7 +26,6 @@ router.get('/dashboard', middleware.isLoggedIn, function(req, res) {
             }
         });
     } else if((req.query.year && req.query.year === "All") && (req.query.month && req.query.month != "All")){ 
-        console.log(req.query);
         req.flash("error", "Please select a year with the month.");
         res.redirect('back');
     } else if((req.query.year) && (req.query.month != "All")){
