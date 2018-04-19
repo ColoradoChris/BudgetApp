@@ -1,6 +1,33 @@
 <% include partials/header %>
 <% var yearOptions = ["All", 2018, 2017, 2016, 2015, 2014]; %>
 <% var monthOptions = ["All", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]; %>
+<% var incomeTypes = user.incomes.types; %>
+<% var expenseTypes = user.expenses.types; %>
+<% var uniqueIncomeTypes = [...new Set(incomeTypes)]; %>
+<% var uniqueExpenseTypes = [...new Set(expenseTypes)]; %>
+<% var incomeBreakdown = {}; %>
+<% var expenseBreakdown = {}; %>
+
+<% for(var i = 0; i < user.incomes.length; i++){ %>
+    <% if(incomeBreakdown[user.incomes[i].type]){ %>
+       <% incomeBreakdown[user.incomes[i].type] += user.incomes[i].amount; %>
+    <% } else { %>
+       <% incomeBreakdown[user.incomes[i].type] = user.incomes[i].type; %>
+       <% incomeBreakdown[user.incomes[i].type] = user.incomes[i].amount; %>
+       <% } %>
+    <% } %>
+
+<% for(var i = 0; i < user.expenses.length; i++){ %>
+    <% if(expenseBreakdown[user.expenses[i].type]){ %>
+       <% expenseBreakdown[user.expenses[i].type] += user.expenses[i].amount; %>
+    <% } else { %>
+       <% expenseBreakdown[user.expenses[i].type] = user.expenses[i].type; %>
+       <% expenseBreakdown[user.expenses[i].type] = user.expenses[i].amount %>
+       <% } %>
+    <% } %>
+
+<% var incomeAmounts = Object.keys(incomeBreakdown).map(function(key) { return incomeBreakdown[key]; }); %>
+<% var expenseAmounts = Object.keys(expenseBreakdown).map(function(key) { return expenseBreakdown[key]; }); %>
 
     <div class="container">
         <div class="row">
@@ -86,11 +113,13 @@
                                   data: [<%= incomeCount.toFixed(2) %>, <%= expenseCount.toFixed(2) %>],
                                   backgroundColor: [
                                       'rgba(255, 99, 132, 0.5)',
-                                      'rgba(54, 162, 235, 0.5)'
+                                      'rgba(54, 162, 235, 0.5)',
+                                      'rgba(5, 125, 255, 0.5)'
                                   ],
                                   borderColor: [
                                       'rgba(255,99,132,1)',
-                                      'rgba(54, 162, 235, 1)'
+                                      'rgba(54, 162, 235, 1)',
+                                      'rgba(5, 125, 255, 1)'
                                   ],
                                   borderWidth: 1
                               }]
