@@ -9,6 +9,8 @@
 <% var uniqueExpenseTypes = [...new Set(expenseTypes)]; %>
 <% var incomeBreakdown = {}; %>
 <% var expenseBreakdown = {}; %>
+<% var incomeCount = 0; %>
+<% var expenseCount = 0; %>
 
 <% for(var i = 0; i < user.incomes.length; i++){ %>
     <% if(incomeBreakdown[user.incomes[i].type]){ %>
@@ -33,34 +35,48 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-md-12">
-                <h1 id="message"><%= currentUser.username %>'s financial dashboard!</h1>
-            </div>
-            <div class="col-md-12">
+            <% if(user.incomes.length > 0 || user.expenses.length > 0){ %>
+                <div class="col-md-12">
+                    <h1 id="message"><%= currentUser.username %>'s financial dashboard!</h1>
+                </div>
+                <div class="col-md-12">
+                    <div class="container">
+                        <a class="btn btn-primary" href="/income/new">Add an Income!</a>
+                        <a class="btn btn-primary" href="/expense/new">Add an Expense!</a>
+                    </div>
+                </div>
+            <% } %>
+            <% if(user.incomes.length > 0 && user.expenses.length > 0){ %>
+                <div class="col-md-12">
+                    <div class="container" id='query'>
+                        <form class="form-inline" action="/dashboard" method="get">
+                            <label for="Year">Year:</label>
+                            <select class="form-control" name="year">
+                                <% for (var i = 0; i < yearOptions.length; i++) { %>
+                                    <option value="<%= yearOptions[i] %>"><%= yearOptions[i] %></option>
+                                <% } %>
+                            </select>
+                            <label for="Month">Month:</label>
+                            <select class="form-control" name="month">
+                                <% for (var i = 0; i < monthOptions.length; i++) { %>
+                                    <option value="<%= monthOptions[i] %>"><%= monthOptions[i] %></option>
+                                <% } %>
+                            </select>
+                            <button class="btn btn-md btn-primary">Refine</button>
+                        </form>
+                    </div>
+                </div>
+            <% } %>
+            <% if(user.incomes.length === 0 && user.expenses.length === 0){ %>
                 <div class="container">
-                    <a class="btn btn-primary" href="/income/new">Add an Income!</a>
-                    <a class="btn btn-primary" href="/expense/new">Add an Expense!</a>
+                    <div class="jumbotron">
+                        <h1>Let's get started on your finances!</h1>
+                        <p>Add an income and or an expense!</p>
+                        <a class="btn btn-primary" href="/income/new">Add an Income!</a>
+                        <a class="btn btn-primary" href="/expense/new">Add an Expense!</a>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-12">
-                <div class="container" id='query'>
-                    <form class="form-inline" action="/dashboard" method="get">
-                        <label for="Year">Year:</label>
-                        <select class="form-control" name="year">
-                            <% for (var i = 0; i < yearOptions.length; i++) { %>
-                                <option value="<%= yearOptions[i] %>"><%= yearOptions[i] %></option>
-                            <% } %>
-                        </select>
-                        <label for="Month">Month:</label>
-                        <select class="form-control" name="month">
-                            <% for (var i = 0; i < monthOptions.length; i++) { %>
-                                <option value="<%= monthOptions[i] %>"><%= monthOptions[i] %></option>
-                            <% } %>
-                        </select>
-                        <button class="btn btn-md btn-primary">Refine</button>
-                    </form>
-                </div>
-            </div>
+            <% } %>
             <div class="container">
                 <div class="col-md-12">
                     <% if(query.year && (query.year != "All" && query.year !="All")){ %>
@@ -69,41 +85,49 @@
                 </div>
             </div>
             <div class="container">
-                <div class="col-md-6" id="incomes">
-                    <h3>Incomes</h3>
-                    <hr>
-                    <ul>
-                        <% var incomeCount = 0 %>
-                        <% user.incomes.forEach(function(income){ %>
-                            <% incomeCount += income.amount %>
-                            <li class="listitems"><a href='/income/<%= income._id %>/edit'><%= date.format(income.date, 'MMM DD YYYY') %>: <%= income.type %> - $<%= income.amount %></a><form class="inline" action="/income/<%= income._id %>?_method=DELETE" method="POST"><button class='btn btn-xs'><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button></form></li>
-                        <% }); %>
-                        <li class="listitems">Total Income: $<%= (incomeCount).toFixed(2) %></li>
-                    </ul>
-                </div>
-                <div class="col-md-6" id="expenses">
-                    <h3>Expenses</h3>
-                    <hr>
-                    <ul>
-                        <% var expenseCount = 0 %>
-                        <% user.expenses.forEach(function(expense){ %>
-                            <% expenseCount += expense.amount %>
-                            <li class="listitems"><a href='/expense/<%= expense._id %>/edit'><%= date.format(expense.date, 'MMM DD YYYY') %>: <%= expense.type %> - $<%= expense.amount %></a><form class="inline" action="/expense/<%= expense._id %>?_method=DELETE" method="POST"><button class='btn btn-xs'><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button></form></li>
-                        <% }); %>
-                        <li class="listitems">Total Expenses: $<%= (expenseCount).toFixed(2) %></li>
-                    </ul>
-                </div>
+                <% if(user.incomes.length > 0){ %>
+                    <div class="col-md-6" id="incomes">
+                        <h3>Incomes</h3>
+                        <hr>
+                        <ul>
+                            <% user.incomes.forEach(function(income){ %>
+                                <% incomeCount += income.amount %>
+                                <li class="listitems"><a href='/income/<%= income._id %>/edit'><%= date.format(income.date, 'MMM DD YYYY') %>: <%= income.type %> - $<%= income.amount %></a><form class="inline" action="/income/<%= income._id %>?_method=DELETE" method="POST"><button class='btn btn-xs'><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button></form></li>
+                            <% }); %>
+                            <li class="listitems">Total Income: $<%= (incomeCount).toFixed(2) %></li>
+                        </ul>
+                    </div>
+                <% } %>
+                <% if(user.expenses.length > 0){ %>
+                    <div class="col-md-6" id="expenses">
+                        <h3>Expenses</h3>
+                        <hr>
+                        <ul>
+                            <% user.expenses.forEach(function(expense){ %>
+                                <% expenseCount += expense.amount %>
+                                <li class="listitems"><a href='/expense/<%= expense._id %>/edit'><%= date.format(expense.date, 'MMM DD YYYY') %>: <%= expense.type %> - $<%= expense.amount %></a><form class="inline" action="/expense/<%= expense._id %>?_method=DELETE" method="POST"><button class='btn btn-xs'><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button></form></li>
+                            <% }); %>
+                            <li class="listitems">Total Expenses: $<%= (expenseCount).toFixed(2) %></li>
+                        </ul>
+                    </div>
+                <% } %>
             </div>
             <div class="container">
-                <div class="col-md-4 charts">
-                    <canvas id="pieChart"></canvas>
-                </div>
-                <div class="col-md-4 charts">
-                    <canvas id="incomeDonut"></canvas>
-                </div>
-                <div class="col-md-4 charts">
-                    <canvas id="expenseDonut"></canvas>
-                </div>
+                <% if(user.incomes.length > 0 && user.expenses.length > 0){ %>
+                    <div class="col-md-4 charts">
+                        <canvas id="pieChart"></canvas>
+                    </div>
+                <% } %>
+                <% if(user.incomes.length > 0){ %>
+                    <div class="col-md-4 charts">
+                        <canvas id="incomeDonut"></canvas>
+                    </div>
+                <% } %>
+                <% if(user.expenses.length > 0){ %>
+                    <div class="col-md-4 charts">
+                        <canvas id="expenseDonut"></canvas>
+                    </div>
+                <% } %>
                 <script>
                         //Income vs Expense Pie Chart
                         var ctx = document.getElementById("pieChart");
