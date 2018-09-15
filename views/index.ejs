@@ -1,11 +1,57 @@
-<% include partials/header %>
-    <div class="container">
-        <div class="jumbotron">
-            <h1>Welcome to Budgeter!</h1>
-            <p>An app that helps you track your expenses and secure your financial future!</p>
-            <p><a class="btn btn-success text-center" href="/signup">Sign Up Now!</a></p>
-            <p><a class="btn btn-primary text-center" href="/login">Login</a></p>
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Budget App</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="stylesheets/landing.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" type="text/javascript" async></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+    </head>
+    <body>
+        <nav class="navbar navbar-inverse navbar-static-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/">Budgeter</a>
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse" id="navbar-collapse-1">
+                    <ul class="nav navbar-nav navbar-right">
+                        <% if(!currentUser){ %>
+                            <li><a href='/login' class="navlink">Login</a></li>
+                            <li><a href='/signup'>Sign Up</a></li>
+                        <% } else { %>
+                            <li><a href='#' class="navlink">Signed In As <%= currentUser.username %></a></li>
+                            <li><a href='/logout'>Logout</a></li>
+                        <% } %>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="container">
+            <% if(error && error.length > 0){ %>
+                <div class="alert alert-danger" role="alert">
+                    <%= error %>
+                </div>
+            <% } %>
+            <% if(success && success.length > 0){ %>
+                <div class="alert alert-success" role="alert">
+                    <%= success %>
+                </div>
+            <% } %>
         </div>
-    </div>
+        <div class="container">
+            <div class="jumbotron">
+                <h1 class="element">Welcome to Budgeter!</h1>
+                <h3 class="element">An app that helps you track your expenses and secure your financial future!</h3>
+                <h3><a class="btn btn-lg btn-success text-center element" href="/signup">Sign Up Now!</a></h3>
+                <h3><a class="btn btn-lg btn-primary text-center element" href="/login">Login</a></h3>
+            </div>
+        </div>
 
 <% include partials/footer %>

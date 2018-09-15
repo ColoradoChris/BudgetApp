@@ -1,0 +1,33 @@
+li a:hover {
+    text-decoration: none;
+}
+
+.listitems {
+    list-style-type: none;
+    margin-left: -38px;
+    margin-bottom: 5px;
+}
+
+.jumbotron {
+    background: none;
+}
+
+.element {
+    text-shadow:
+    	-1px -1px 0 #000,
+    	1px -1px 0 #000,
+    	-1px 1px 0 #000,
+    	1px 1px 0 #000;
+    color: #c8c8c8;
+}
+
+canvas {
+    padding-bottom: 10px;
+}
+
+body {
+    background-color: #000;
+    background-image: url("https://media.coindesk.com/uploads/2017/08/piggy-bank-e1504182200356.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+}

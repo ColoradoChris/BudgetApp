@@ -15,7 +15,7 @@ router.get('/', function(req, res){
 //Dashboard
 router.get('/dashboard', middleware.isLoggedIn, function(req, res) {
      if(req.query.year != "All" && req.query.month === "All"){
-        User.findById(req.user._id).populate({path: 'incomes', match: {date: {$gte: new Date(req.query.year  + "-01-01T00:00:00Z"), $lte: new Date(req.query.year  + "-12-31T00:00:00Z")} }}).populate({path: 'expenses', match: {date: {$gte: new Date(req.query.year  + "-01-01T00:00:00Z"), $lte: new Date(req.query.year  + "-12-31T00:00:00Z")} }}).exec(function(err, user){
+        User.findById(req.user._id).populate({path: 'incomes', match: {date: {$gte: new Date(req.query.year  + "-01-01T00:00:00Z"), $lte: new Date(req.query.year  + "-12-31T00:00:00Z")} }, options: { sort: {date: 1}}}).populate({path: 'expenses', match: {date: {$gte: new Date(req.query.year  + "-01-01T00:00:00Z"), $lte: new Date(req.query.year  + "-12-31T00:00:00Z")} }, options: {sort: {date: 1}}}).exec(function(err, user){
             if(err){
                 console.log(err);
                 req.flash("error", "Something went wrong");
@@ -28,7 +28,7 @@ router.get('/dashboard', middleware.isLoggedIn, function(req, res) {
         req.flash("error", "Please select a year with the month.");
         res.redirect('back');
     } else if((req.query.year) && (req.query.month != "All")){
-        User.findById(req.user._id).populate({path: 'incomes', match: {date: {$gte: new Date(req.query.year + "-" + months[req.query.month]  + "-01T00:00:00Z"), $lte: new Date(req.query.year + "-" + months[req.query.month] + "-31T00:00:00Z")} }}).populate({path: 'expenses', match: {date: {$gte: new Date(req.query.year + "-" + months[req.query.month] + "-01T00:00:00Z"), $lte: new Date(req.query.year + "-" + months[req.query.month] + "-31T00:00:00Z")} }}).exec(function(err, user){
+        User.findById(req.user._id).populate({path: 'incomes', match: {date: {$gte: new Date(req.query.year + "-" + months[req.query.month]  + "-01T00:00:00Z"), $lte: new Date(req.query.year + "-" + months[req.query.month] + "-31T00:00:00Z")} }, options: {sort: {date: 1}}}).populate({path: 'expenses', match: {date: {$gte: new Date(req.query.year + "-" + months[req.query.month] + "-01T00:00:00Z"), $lte: new Date(req.query.year + "-" + months[req.query.month] + "-31T00:00:00Z")} }, options: {sort: {date: 1}}} ).exec(function(err, user){
             if(err){
                 console.log(err);
                 req.flash("error", "Something went wrong");
@@ -38,7 +38,7 @@ router.get('/dashboard', middleware.isLoggedIn, function(req, res) {
             }
         });
     } else {
-        User.findById(req.user._id).populate('incomes').populate('expenses').exec(function(err, user){
+        User.findById(req.user._id).populate({path:'incomes', options: {sort: {date: 1}}}).populate({path: 'expenses', options: {sort: {date: 1}}}).exec(function(err, user){
             if(err){
                 console.log(err);
                 req.flash("error", "Something went wrong");
