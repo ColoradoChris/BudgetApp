@@ -4,7 +4,7 @@
   "description": "This will be a web based application that allows users to create profiles and track their expenses, incomes, and savings.",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jasmine",
     "start": "node app.js"
   },
   "repository": {
@@ -32,6 +32,7 @@
     "ejs": "^2.5.8",
     "express": "^4.16.3",
     "express-session": "^1.15.6",
+    "jasmine": "^3.2.0",
     "method-override": "^2.3.10",
     "mongoose": "^5.0.13",
     "passport": "^0.4.0",
