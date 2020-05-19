@@ -10,6 +10,4 @@ This application allows you to do the following:
 
 ### If you would like to contribute feel free to fork the repository and start tinkering around!
 
-### If you have any suggestions please feel free to email me at: ckansas@smcm.edu
-
 Created by [Chris Kansas](http://www.github.com/ColoradoChris)
